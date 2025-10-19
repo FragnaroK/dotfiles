@@ -22,6 +22,7 @@
     font-family: "Fira Sans Semibold", "Font Awesome 7 Free", "Font Awesome 7 Brands", "Font Awesome 6 Free", "Font Awesome 6 Brands", FontAwesome, "Material Icons", Roboto, Helvetica, Arial, sans-serif;
     border: none;
     border-radius: 0px;
+    transition: opacity .25s ease-in-out;
 }
 
 window#waybar {
@@ -34,15 +35,15 @@ window#waybar {
 }
 
 .modules-left {
-    margin:8px 0px 8px 10px;
+    margin:2px 0px 2px 5px;
 }
 
 .modules-right {
-    margin:8px 10px 8px 0px;
+    margin:2px 5px 2px 0px;
 }
 
 .modules-center {
-    margin:8px 0px 8px 0px;
+    margin:2px 0px 2px 0px;
 }
 
 /* -----------------------------------------------------
@@ -50,7 +51,7 @@ window#waybar {
  * ----------------------------------------------------- */
 
 #workspaces {
-    background: @workspacesbackground1;
+    /* background: @workspacesbackground1; */
     margin: 2px 1px 3px 1px;
     padding: 0px 1px;
     border-radius: 15px;
@@ -68,22 +69,25 @@ window#waybar {
     border-radius: 15px;
     border: 0px;
     color: @textcolor2;
-    background-color: @workspacesbackground2;
-    transition: all 0.3s ease-in-out;
+    /* background-color: @workspacesbackground1; */
+    opacity: 0.25;
+    font-size: 12px;
+    transition: all 0.2s ease-in-out;
 }
 
 #workspaces button.active {
-    color: @on_primary;
-    background: @primary;
-    border-radius: 15px;
-    min-width: 40px;
-    transition: all 0.3s ease-in-out;
+    /* color: @on_primary; */
+    /* background: @primary; */
+    opacity: 1;
+    font-size: 16px;
+    /* min-width: 40px; */
 }
 
 #workspaces button:hover {
-    color: @on_secondary;
-    background: @secondary;
-    border-radius: 15px;
+    /* color: @on_secondary; */
+    opacity: 1;
+    /* background: @secondary; */
+    background: transparent;
 }
 
 /* -----------------------------------------------------
@@ -106,14 +110,13 @@ tooltip label {
  * ----------------------------------------------------- */
 
 #window {
-    background: @backgroundlight;
+    /* background: @backgroundlight; */
     margin: 5px 15px 5px 0px;
     padding: 2px 10px 0px 10px;
-    border-radius: 12px;
     color:@textcolor1;
     font-size:16px;
     font-weight:normal;
-    opacity:0.8;
+    opacity:0.6;
 }
 
 window#waybar.empty #window {
@@ -284,14 +287,19 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #custom-appmenu {
-    background-color: @backgrounddark;
-    font-size: 16px;
+    /* background-color: @backgrounddark; */
     color: @textcolor1;
-    border-radius: 15px;
     padding: 0px 10px 0px 10px;
     margin: 3px 17px 3px 0px;
-    opacity:0.8;
-    border:3px solid @bordercolor;
+    opacity:0.5;
+    transition: all .25s ease-in-out;
+    /* border:3px solid @bordercolor; */
+}
+
+#custom-appmenu:hover {
+    /* background-color: @backgrounddark; */
+    opacity: 1;
+    /* border:3px solid @bordercolor; */
 }
 
 /* -----------------------------------------------------
@@ -307,6 +315,10 @@ window#waybar.empty #window {
     opacity: 0.8;
 }
 
+#custom-notification:hover {
+    opacity: 1;
+}
+
 /* -----------------------------------------------------
  * Custom Exit
  * ----------------------------------------------------- */
@@ -319,18 +331,25 @@ window#waybar.empty #window {
     opacity: 0.8;
 }
 
+#custom-exit:hover {
+    opacity: 1;
+}
 /* -----------------------------------------------------
  * Custom Updates
  * ----------------------------------------------------- */
 
 #custom-updates {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
     padding: 2px 10px 0px 10px;
     margin: 5px 15px 5px 0px;
     opacity:0.8;
+}
+
+#custom-updates:hover {
+    opacity: 1;
 }
 
 #custom-updates.green {
@@ -357,7 +376,7 @@ window#waybar.empty #window {
     font-size:16px;
     color:@iconcolor;
 }
-
+ 
 #language {
     margin-right:10px;
 }
@@ -378,14 +397,18 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #clock {
-    background-color: @backgrounddark;
+    /* background-color: @backgrounddark; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
     padding: 1px 10px 0px 10px;
     margin: 3px 0px 3px 0px;
     opacity:0.8;
-    border:3px solid @bordercolor;
+    /* border:3px solid @bordercolor; */
+}
+
+#clock:hover {
+    opacity: 1;
 }
 
 /* -----------------------------------------------------
@@ -407,7 +430,7 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #pulseaudio {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
@@ -416,8 +439,12 @@ window#waybar.empty #window {
     opacity:0.8;
 }
 
+#pulseaudio:hover {
+    opacity: 1;
+}
+
 #pulseaudio.muted {
-    background-color: @backgrounddark;
+    /* background-color: @backgrounddark; */
     color: @textcolor1;
 }
 
@@ -426,7 +453,7 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #network {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
@@ -435,13 +462,17 @@ window#waybar.empty #window {
     opacity:0.8;
 }
 
+#network:hover {
+    opacity: 1;
+}
+
 #network.ethernet {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     color: @textcolor1;
 }
 
 #network.wifi {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     color: @textcolor1;
 }
 
@@ -450,13 +481,17 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #bluetooth, #bluetooth.on, #bluetooth.connected {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
     padding: 2px 10px 0px 10px;
     margin: 5px 15px 5px 0px;
     opacity:0.8;
+}
+
+#bluetooth:hover {
+    opacity: 1;
 }
 
 #bluetooth.off {
@@ -470,7 +505,7 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #battery {
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
     font-size: 16px;
     color: @textcolor1;
     border-radius: 15px;
@@ -479,14 +514,18 @@ window#waybar.empty #window {
     opacity:0.8;
 }
 
+#battery:hover {
+    opacity: 1;
+}
+
 #battery.charging, #battery.plugged {
     color: @textcolor1;
-    background-color: @backgroundlight;
+    /* background-color: @backgroundlight; */
 }
 
 @keyframes blink {
     to {
-        background-color: @backgroundlight;
+        /* background-color: @backgroundlight; */
         color: @textcolor2;
     }
 }
@@ -508,6 +547,7 @@ window#waybar.empty #window {
 #tray {
     padding: 0px 15px 0px 0px;
 }
+
 
 #tray > .passive {
     -gtk-icon-effect: dim;
