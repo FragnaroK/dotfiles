@@ -8,7 +8,7 @@ set -euo pipefail
 
 HYPR_CONFIG_PATH="$HOME/.config/hypr"
 SCRIPTS_PATH="$HYPR_CONFIG_PATH/scripts"
-SETUP_SCRIPTS_PATH="$SCRIPTS_PATH/setup-scripts"
+SETUP_SCRIPTS_PATH="$SCRIPTS_PATH/setup-scripts/env"
 
 run_setup_script() {
     local script_path="$1"
