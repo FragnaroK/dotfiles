@@ -9,3 +9,9 @@ if ssh-add -l | grep -q "no identities"; then
         fi
     done
 fi
+
+if [ "$?" -ne 0 ]; then
+    echo "Error: ssh setup failed"
+    notify-send -u critical "SSH Setup" "Failed to add ssh keys to agent"
+    exit 1
+fi
