@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#-------------------------------------------------------------
+#------------------------------------------------------
 # Setup environment based on chassis type
-#-------------------------------------------------------------
+#------------------------------------------------------
 
 set -euo pipefail
 
@@ -18,7 +18,7 @@ run_setup_script() {
         bash "$script_path" "$env_type"
     else
         echo "Error: Setup script $(basename "$script_path") not found"
-        notify-send --urgency=critical "Environment Setup" "Setup script $script_name not found"
+        notify-send -u critical "Environment Setup" "Setup script $script_name not found"
         exit 1
     fi
 }
@@ -33,7 +33,7 @@ setup_env() {
 
         if [ "$?" -ne 0 ]; then
             echo "Error: Setup script $script failed"
-            notify-send --urgency=critical "Environment Setup" "Setup script $script failed"
+            notify-send -u critical "Environment Setup" "Setup script $script failed"
             return 1
         fi
     done
@@ -45,7 +45,7 @@ setup_env
 
 if [ "$?" -ne 0 ]; then
     echo "Error: Environment setup failed"
-    notify-send --urgency=critical "Environment Setup" "Environment setup failed"
+    notify-send -u critical "Environment Setup" "Environment setup failed"
     exit 1
 fi
 
