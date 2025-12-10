@@ -1,4 +1,7 @@
 # Hyprland Config Requirements
+## TODOs
+
+- Review setup scripts approach
 
 ## Optional
 
