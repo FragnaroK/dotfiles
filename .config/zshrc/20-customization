@@ -1,8 +1,10 @@
 # -----------------------------------------------------
 # CUSTOMIZATION
 # -----------------------------------------------------
-POSH=amro
-POSH_THEMES_PATH=$HOME/.config/hypr/shell/ohmyposh/themes
+POSH=tokyonight_storm
+# POSH=1_shell
+# POSH=amro
+POSH_THEMES_PATH=$HOME/.config/ohmyposh/themes
 
 # -----------------------------------------------------
 # oh-myzsh themes: https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
