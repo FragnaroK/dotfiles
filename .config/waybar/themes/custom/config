@@ -1,0 +1,43 @@
+{
+    // General Settings
+    "layer": "top",
+    "output": ["HDMI-A-1", "eDP-1"],
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+    // Load Modules
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+    // Modules Left
+    "modules-left": [
+        "custom/appmenu",
+        //"wlr/taskbar",
+        //"group/quicklinks",
+        "hyprland/workspaces",
+        "custom/empty"
+    ],
+    // Modules Center
+    "modules-center": [
+        "hyprland/window"
+    ],
+    // Modules Right    
+    "modules-right": [
+        "custom/updates",
+        "pulseaudio",
+        //"backlight",
+        "bluetooth",
+        "network",
+        "battery",
+        "group/hardware",
+        "group/tools",
+        "tray",
+        "custom/notification",
+        "custom/exit",
+        "custom/ml4w-welcome",
+        "clock"
+    ]
+}
