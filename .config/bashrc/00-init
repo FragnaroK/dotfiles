@@ -9,3 +9,17 @@ export EDITOR=nvim
 export PATH="/usr/lib/ccache/bin/:$PATH"
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.local/bin/
+
+# Java
+export JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
+export PATH=$JAVA_HOME/bin:$PATH
+
+# PNPM
+export PNPM_HOME="/home/franco/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# ---
+PATH=~/bin:$PATH
