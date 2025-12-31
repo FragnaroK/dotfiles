@@ -2,6 +2,19 @@
 # AUTOSTART
 # -----------------------------------------------------
 
+# The 'ff' command (Fuzzy Finder)
+finder() {
+    # Run the script and capture the result
+    local result=$($HOME/.config/ml4w/bin/ml4w-finder.sh)
+
+    # Check if the script told us to CD
+    if [[ "$result" == TYPE_DIR:* ]]; then
+        local target_dir="${result#TYPE_DIR:}"
+        cd "$target_dir" && ls
+    fi
+}
+
+
 # -----------------------------------------------------
 # SSH
 # -----------------------------------------------------
@@ -23,4 +36,3 @@ fi
 if [[ $(tty) == *"pts"* ]]; then
     fastfetch
 fi
-
