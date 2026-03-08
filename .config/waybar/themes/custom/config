@@ -1,7 +1,7 @@
 {
     // General Settings
     "layer": "top",
-    "output": ["HDMI-A-1", "eDP-1"],
+    // "output": ["HDMI-A-1", "eDP-1", "DP-2"],
     "margin-top": 0,
     "margin-bottom": 0,
     "margin-left": 0,
