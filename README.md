@@ -4,4 +4,6 @@ Minimal dotfiles made to work with my job's laptop only.
 
 ## Setup
 
-run
+Symlink `./zsh/.zshrc` to your ~ dir.
+
+Proper setup script will be added soon.
