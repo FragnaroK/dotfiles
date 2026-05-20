@@ -8,4 +8,4 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-git $1 origin main:work s
+git $1 origin main:work
