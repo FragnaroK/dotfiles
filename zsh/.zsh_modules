@@ -1,8 +1,0 @@
-ZSH_CONFIG_MODULES_PATH="$ZSH_CONFIG_PATH/modules"
-
-# echo "Loading modules.."
-
-for file in $ZSH_CONFIG_MODULES_PATH/*.zsh(N.); do
-    # echo "Ran - source $file"
-    source "$file"
-done
