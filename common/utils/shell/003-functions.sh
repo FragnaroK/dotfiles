@@ -5,6 +5,10 @@ find_links() {
 }
 
 # Python scripts
+scrap() {
+    run_python_script "scrap-page.py" "$@"
+}
+
 create-hype() {
    run_python_script "create-hype" "$@"
 }
