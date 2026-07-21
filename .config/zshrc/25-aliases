@@ -63,3 +63,4 @@ alias ascii='~/.config/ml4w/scripts/ml4w-ascii-header'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 alias open='nautilus'
+alias bambustudio='~/apps/bambu-studio.AppImage'
