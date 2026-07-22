@@ -1,2 +1,2 @@
-local name = "default.lua"
+local name = "no-border.lua"
 load_variant(name,"windows")
