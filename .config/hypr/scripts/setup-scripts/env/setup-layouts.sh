@@ -7,12 +7,12 @@
 set -euo pipefail
 
 CUSTOM_CONFIG_PATH="$HOME/.config/hypr/conf/layouts/custom"
-LAYOUTS_CONFIG_PATH="$HOME/.config/hypr/conf/layouts/custom.conf" 
+LAYOUTS_CONFIG_PATH="$HOME/.config/hypr/conf/layouts/custom.lua" 
 
 selected_env="$1"
 
 toggle_config() {
-    local source_path="$CUSTOM_CONFIG_PATH/layouts-$1.conf"
+    local source_path="$CUSTOM_CONFIG_PATH/layouts-$1.lua"
 
     cp -fv "$source_path" "$LAYOUTS_CONFIG_PATH"
 

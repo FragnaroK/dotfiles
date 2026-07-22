@@ -6,18 +6,18 @@
 
 set -euo pipefail
 
-CUSTOM_CONFIG_PATH="$HOME/.config/hypr/monitors"
-MONITOR_CONFIG_PATH="$HOME/.config/hypr/monitors.conf"
-WORKSPACES_CONFIG_PATH="$HOME/.config/hypr/workspaces.conf"
+CUSTOM_CONFIG_PATH="$HOME/.config/hypr/conf/monitors"
+MONITOR_CONFIG_PATH="$HOME/.config/hypr/monitors.lua"
+# WORKSPACES_CONFIG_PATH="$HOME/.config/hypr/workspaces.conf"
 
 selected_env="$1"
 
 toggle_config() {
-    local source_monitors_path="$CUSTOM_CONFIG_PATH/monitors-$1.conf"
-    local source_workspaces_path="$CUSTOM_CONFIG_PATH/workspaces-$1.conf"
+    local source_monitors_path="$CUSTOM_CONFIG_PATH/monitors-$1.lua"
+    # local source_workspaces_path="$CUSTOM_CONFIG_PATH/workspaces-$1.conf"
 
     cp -fv "$source_monitors_path" "$MONITOR_CONFIG_PATH"
-    cp -fv "$source_workspaces_path" "$WORKSPACES_CONFIG_PATH"
+    # cp -fv "$source_workspaces_path" "$WORKSPACES_CONFIG_PATH"
 
     if [ $? -ne 0 ]; then
         echo "Error: Could not set $1 mode"

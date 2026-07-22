@@ -7,12 +7,12 @@
 set -euo pipefail
 
 CUSTOM_CONFIG_PATH="$HOME/.config/hypr/conf/windowrules/custom"
-WINDOWRULES_CONFIG_PATH="$HOME/.config/hypr/conf/windowrules/custom.conf" 
+WINDOWRULES_CONFIG_PATH="$HOME/.config/hypr/conf/windowrules/custom.lua" 
 
 selected_env="$1"
 
 toggle_config() {
-    local source_path="$CUSTOM_CONFIG_PATH/windowrules-$1.conf"
+    local source_path="$CUSTOM_CONFIG_PATH/windowrules-$1.lua"
 
     cp -fv "$source_path" "$WINDOWRULES_CONFIG_PATH"
 
