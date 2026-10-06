@@ -35,17 +35,3 @@ done
 if [ -f ~/.zshrc_custom ]; then
     source ~/.zshrc_custom
 fi
-
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-
-. "$HOME/.local/bin/env"
-
-# pnpm
-export PNPM_HOME="/home/franco/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end

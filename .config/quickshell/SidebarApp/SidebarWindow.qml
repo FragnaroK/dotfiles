@@ -842,6 +842,55 @@ PanelWindow {
                         Item { implicitWidth: 28 }
                     }
 
+                    // --- STATUSBAR AUTOHIDE (Quickshell) ---
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text { text: "Statusbar Autohide"; color: Theme.primary; font.family: Theme.fontFamily; font.pixelSize: 16 }
+                        Item { Layout.fillWidth: true }
+                        ML4WSwitch {
+                            id: statusbarAutohideSwitch
+                            property bool ready: false
+                            // Read the current state from the "autohide" flag in
+                            // the master file: the ml4w-statusbar override when it
+                            // exists, otherwise the shipped statusbar.json. A
+                            // missing file or flag counts as off, matching the
+                            // statusbar's own default.
+                            Process {
+                                id: statusbarAutohideProc
+                                command: ["bash", "-c", "f=~/.config/ml4w-statusbar/statusbar.json; [ -f \"$f\" ] || f=~/.config/ml4w/settings/statusbar.json; grep -q '\"autohide\"[[:space:]]*:[[:space:]]*true' \"$f\" && echo 1 || echo 0"]
+                                stdout: StdioCollector {
+                                    onStreamFinished: {
+                                        console.log("Test for Statusbar Autohide: " + this.text.trim())
+                                        statusbarAutohideSwitch.checked = (this.text.trim() === "1")
+                                        statusbarAutohideSwitch.ready = true
+                                    }
+                                }
+                            }
+                            // Polled like the Dock Autohide switch below, so the
+                            // state tracks changes made outside the sidebar (the
+                            // SUPER + ALT + B keybinding).
+                            Timer {
+                                interval: 1000
+                                repeat: true
+                                running: root.isOpen
+                                triggeredOnStart: true
+                                onTriggered: statusbarAutohideProc.running = true
+                            }
+                            onClicked: {
+                                if (!ready) return;
+                                // The statusbar owns the file write; just tell it
+                                // the new state via IPC. `checked` already
+                                // reflects the post-click position.
+                                let ipcCmd = checked
+                                ? "qs ipc call statusbar autohideOn"
+                                : "qs ipc call statusbar autohideOff"
+                                console.log("Statusbar Autohide cmd: " + ipcCmd)
+                                Quickshell.execDetached(["bash", "-c", ipcCmd])
+                            }
+                        }
+                        Item { implicitWidth: 28 }
+                    }
+
                     // --- DOCK ---
                     RowLayout {
                         Layout.fillWidth: true
@@ -850,9 +899,14 @@ PanelWindow {
                         ML4WSwitch {
                             id: dockSwitch
                             property bool ready: false
+                            // Read the current state from the "enabled" flag in
+                            // the master file: the ml4w-dock override when it
+                            // exists, otherwise the shipped dock.json. A missing
+                            // file or flag counts as on, matching the dock's own
+                            // default.
                             Process {
-                                command: ["bash", "-c", "test -f ~/.config/ml4w/settings/dock-disabled && echo 0 || echo 1"]
-                                running: root.isOpen
+                                id: dockStateProc
+                                command: ["bash", "-c", "f=~/.config/ml4w-dock/dock.json; [ -f \"$f\" ] || f=~/.config/ml4w/settings/dock.json; grep -q '\"enabled\"[[:space:]]*:[[:space:]]*false' \"$f\" && echo 0 || echo 1"]
                                 stdout: StdioCollector {
                                     onStreamFinished: {
                                         console.log("Test for Dock: " + this.text.trim())
@@ -861,16 +915,47 @@ PanelWindow {
                                     }
                                 }
                             }
+                            // Re-read the state periodically while the sidebar is
+                            // open so the switch tracks external toggles (e.g. the
+                            // SUPER+CTRL+D keybinding) live, not just on reopen.
+                            // triggeredOnStart gives the initial read on open.
+                            Timer {
+                                interval: 1000
+                                repeat: true
+                                running: root.isOpen
+                                triggeredOnStart: true
+                                onTriggered: dockStateProc.running = true
+                            }
                             onClicked: {
                                 if (!ready) return;
-                                let fileCmd = checked
-                                ? "rm -f ~/.config/ml4w/settings/dock-disabled"
-                                : "touch ~/.config/ml4w/settings/dock-disabled"
-                                console.log("Dock cmd: " + fileCmd)
-                                Quickshell.execDetached(["bash", "-c", fileCmd + "; " + Quickshell.env("HOME") + "/.config/nwg-dock-hyprland/launch.sh"])
+                                // The dock owns the file write; just tell it the
+                                // new state via IPC. `checked` already reflects
+                                // the post-click position.
+                                let ipcCmd = checked
+                                ? "qs ipc call dock enable"
+                                : "qs ipc call dock disable"
+                                console.log("Dock cmd: " + ipcCmd)
+                                Quickshell.execDetached(["bash", "-c", ipcCmd])
                             }
                         }
-                        Item { implicitWidth: 28 }
+
+                        SettingsWheel {
+                            onClicked: dockMenu.open()
+                            Menu {
+                                id: dockMenu
+                                y: parent.height
+                                implicitWidth: 220
+                                padding: 8
+
+                                background: Rectangle { color: Theme.background; border.color: Theme.primary; border.width: 1; radius: 8 }
+                                ML4WMenuItem { text: "Reload Dock"; onClicked: {
+                                        // Tells the running dock to re-read its
+                                        // settings files and apply them live.
+                                        Quickshell.execDetached(["bash", "-c", "~/.config/ml4w/scripts/ml4w-reload-dock"])
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     // --- DOCK AUTOHIDE ---
@@ -881,9 +966,14 @@ PanelWindow {
                         ML4WSwitch {
                             id: dockAutohideSwitch
                             property bool ready: false
+                            // Read the current state from the "autohide" flag in
+                            // the master file: the ml4w-dock override when it
+                            // exists, otherwise the shipped dock.json. A missing
+                            // file or flag counts as off, matching the dock's own
+                            // default.
                             Process {
-                                command: ["bash", "-c", "test -f ~/.config/ml4w/settings/dock-autohide && echo 1 || echo 0"]
-                                running: root.isOpen
+                                id: dockAutohideProc
+                                command: ["bash", "-c", "f=~/.config/ml4w-dock/dock.json; [ -f \"$f\" ] || f=~/.config/ml4w/settings/dock.json; grep -q '\"autohide\"[[:space:]]*:[[:space:]]*true' \"$f\" && echo 1 || echo 0"]
                                 stdout: StdioCollector {
                                     onStreamFinished: {
                                         console.log("Test for Dock Autohide: " + this.text.trim())
@@ -892,13 +982,25 @@ PanelWindow {
                                     }
                                 }
                             }
+                            // Polled like the Dock switch above, so the state
+                            // tracks changes made outside the sidebar.
+                            Timer {
+                                interval: 1000
+                                repeat: true
+                                running: root.isOpen
+                                triggeredOnStart: true
+                                onTriggered: dockAutohideProc.running = true
+                            }
                             onClicked: {
                                 if (!ready) return;
-                                let fileCmd = checked
-                                ? "mkdir -p ~/.config/ml4w/settings && touch ~/.config/ml4w/settings/dock-autohide"
-                                : "rm -f ~/.config/ml4w/settings/dock-autohide"
-                                console.log("Dock Autohide cmd: " + fileCmd)
-                                Quickshell.execDetached(["bash", "-c", fileCmd + "; " + Quickshell.env("HOME") + "/.config/nwg-dock-hyprland/launch.sh"])
+                                // The dock owns the file write; just tell it the
+                                // new state via IPC. `checked` already reflects
+                                // the post-click position.
+                                let ipcCmd = checked
+                                ? "qs ipc call dock autohideOn"
+                                : "qs ipc call dock autohideOff"
+                                console.log("Dock Autohide cmd: " + ipcCmd)
+                                Quickshell.execDetached(["bash", "-c", ipcCmd])
                             }
                         }
                         Item { implicitWidth: 28 }
@@ -926,6 +1028,47 @@ PanelWindow {
                             onClicked: {
                                 if (!ready) return;
                                 Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/hypr/scripts/gamemode.sh"])
+                            }
+                        }
+                        Item { implicitWidth: 28 }
+                    }
+
+                    // --- HYPRIDLE ---
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text { text: "Hypridle"; color: Theme.primary; font.family: Theme.fontFamily; font.pixelSize: 16 }
+                        Item { Layout.fillWidth: true }
+                        ML4WSwitch {
+                            id: hypridleSwitch
+                            property bool ready: false
+                            // Purely a runtime toggle: hypridle is started by
+                            // Hyprland's autostart, so a reboot always brings it
+                            // back. Nothing is persisted here.
+                            Process {
+                                id: hypridleStateProc
+                                command: ["bash", "-c", "pgrep -x hypridle >/dev/null && echo 1 || echo 0"]
+                                stdout: StdioCollector {
+                                    onStreamFinished: {
+                                        console.log("Test for Hypridle: " + this.text.trim())
+                                        hypridleSwitch.checked = (this.text.trim() === "1")
+                                        hypridleSwitch.ready = true
+                                    }
+                                }
+                            }
+                            // Re-read while the sidebar is open so the switch
+                            // tracks external toggles (waybar hypridle module)
+                            // live. triggeredOnStart gives the initial read.
+                            Timer {
+                                interval: 1000
+                                repeat: true
+                                running: root.isOpen
+                                triggeredOnStart: true
+                                onTriggered: hypridleStateProc.running = true
+                            }
+                            onClicked: {
+                                if (!ready) return;
+                                // Same script waybar uses, so both stay in sync.
+                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/hypr/scripts/hypridle.sh toggle"])
                             }
                         }
                         Item { implicitWidth: 28 }
@@ -979,13 +1122,6 @@ PanelWindow {
                         Layout.fillWidth: true
                         Text { text: "Theme"; color: Theme.primary; font.family: Theme.fontFamily; font.pixelSize: 16 }
                         Item { Layout.fillWidth: true }
-                        ActionIcon {
-                            iconSrc: "../shared/icons/theme.svg"
-                            onClicked: {
-                                root.isOpen = false
-                                Quickshell.execDetached(["bash", "-c", Quickshell.env("HOME") + "/.config/ml4w/themes/themes.sh"])
-                            }
-                        }
                         SettingsWheel {
                             onClicked: themeMenu.open()
                             Menu {

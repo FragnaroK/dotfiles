@@ -1,0 +1,14 @@
+{
+    "dock": {
+        "enabled": true,
+        "autohide": true
+    },
+    "apps": {
+        "pinned": [
+            "firefox",
+            "kitty",
+            "org.gnome.Nautilus",
+            "org.gnome.Calculator"
+        ]
+    }
+}
