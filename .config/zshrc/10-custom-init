@@ -9,6 +9,16 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
+# SSH
+eval "$(ssh-agent -s)" > /dev/null
+if ssh-add -l | grep -q "no identities"; then
+    for key in ~/.ssh/id_*; do
+        if [[ -f "$key" && ! "$key" =~ \.pub$ ]]; then
+            ssh-add "$key" > /dev/null 2>&1
+        fi
+    done
+fi
+
 # ---
 PATH=~/bin:$PATH
 

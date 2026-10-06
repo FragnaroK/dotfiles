@@ -1,1 +1,0 @@
-google-chrome --disable-features=WaylandWpColorManagerV1
